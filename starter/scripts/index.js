@@ -19,9 +19,7 @@ const QUESTION = document.getElementById("question");
 const CHOICE_STATUSES = document.querySelectorAll(".choice-status");
 const CORRECT = document.getElementById("correct");
 const WRONG = document.getElementById("wrong");
-const CHOICE_STATUSES = document.querySelectorAll(".choice-status");
-const CORRECT = document.getElementById("correct");
-const WRONG = document.getElementById("wrong");
+
 
 // Create Question Class and Questions/Answers Array
 class Question {
