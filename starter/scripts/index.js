@@ -40,6 +40,13 @@ let totalTime = 60;
 let totalTimeInterval;
 let choiceStatusTimeout; 
 
+
+/******** EVENT LISTENERS ********/ 
+START_BTN.addEventListener('click', startGame);
+CHOICES.addEventListener('click', processChoice);
+SUBMIT_SCORE.addEventListener('submit', processInput);
+
+
 // A start button function
     // loads Q&A
     // starts timer
