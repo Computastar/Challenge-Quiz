@@ -13,7 +13,12 @@ const QUIZ_SECTION = document.getElementById("quiz-questions");
 //Quiz questions
 
 const QUESTION = document.getElementById("question");
+//Quiz questions
 
+
+const CHOICE_STATUSES = document.querySelectorAll(".choice-status");
+const CORRECT = document.getElementById("correct");
+const WRONG = document.getElementById("wrong");
 const CHOICE_STATUSES = document.querySelectorAll(".choice-status");
 const CORRECT = document.getElementById("correct");
 const WRONG = document.getElementById("wrong");
@@ -125,6 +130,89 @@ function displayQuestion() {
   function resetChoiceStatusEffects() {
     clearTimeout(choiceStatusTimeout);
     styleTimeRemainingDefault();
+  }
+
+  // Displaying choice statuses //
+function resetChoiceStatusEffects() {
+    clearTimeout(choiceStatusTimeout);
+    styleTimeRemainingDefault();
+  }
+  
+  function styleTimeRemainingDefault() {
+    TIME_REMAINING.style.color = "#4616E8";
+  }
+  
+  function styleTimeRemainingWrong() {
+    TIME_REMAINING.style.color = "#E81648";
+  }
+
+  function checkChoice(userChoice) {
+    if (isChoiceCorrect(userChoice)) {
+      displayCorrectChoiceEffects();
+    } else {
+      displayWrongChoiceEffects();
+    }
+  }
+
+  function isChoiceCorrect(choice) {
+    return choice === QUESTION_LIST[currentQuestion].indexOfCorrectChoice;
+  }
+
+  function displayWrongChoiceEffects() {
+    deductTimeBy(10);
+  
+    styleTimeRemainingWrong();
+    showElement(CHOICE_STATUSES, WRONG);
+  
+    choiceStatusTimeout = setTimeout(function() {
+      hideElement(WRONG);
+      styleTimeRemainingDefault();
+    }, 1000);
+  }
+  
+  function deductTimeBy(seconds) {
+    totalTime -= seconds;
+    checkTime();
+    displayTime();
+  }
+  
+  function displayCorrectChoiceEffects() {
+    showElement(CHOICE_STATUSES, CORRECT);
+  
+    choiceStatusTimeout = setTimeout(function() {
+      hideElement(CORRECT);
+    }, 1000);
+  }
+
+  //Get next question
+function getNextQuestion() {
+    currentQuestion++;
+    if (currentQuestion >= QUESTION_LIST.length) {
+      endGame();
+    } else {
+      displayQuestion();
+    }
+  }
+
+  /* Finish the game */ 
+function endGame() {
+    clearInterval(totalTimeInterval);
+    
+    showElement(QUIZ_SECTIONS, END_SECTION);
+    displayScore();
+    setEndHeading();
+  }
+  
+  function displayScore() {
+    SCORE.textContent = totalTime;
+  }
+  
+  function setEndHeading() {
+    if (totalTime === 0) {
+      END_TITLE.textContent = "Sorry! You ran out of time!";
+    } else {
+      END_TITLE.textContent = "Congratulations! You answered all the questions before your time ran out!";
+    }
   }
 // A start button function
     // loads Q&A
