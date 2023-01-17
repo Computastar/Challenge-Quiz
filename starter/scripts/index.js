@@ -1,26 +1,22 @@
-//Section list
-const QUIZ_SECTIONS = document.querySelectorAll(".quiz-section");
+
 
 //Start
-const START_SECTION = document.getElementById("start");
-const START_BTN = document.getElementById("start-button");
 
-//Quiz questions
-const QUIZ_SECTION = document.getElementById("quiz-questions");
-const TIME_REMAINING = document.getElementById("time-remaining");
-const QUESTION = document.getElementById("question");
-const CHOICES = document.getElementById("choices");
-const CHOICE_STATUSES = document.querySelectorAll(".choice-status");
-const CORRECT = document.getElementById("correct");
-const WRONG = document.getElementById("wrong");
+const START_BTN = document.getElementById("start");
+const TIME_REMAINING = document.getElementById("time");
 
 //End
-const END_SECTION = document.getElementById("end");
-const END_TITLE = document.getElementById("end-title");
-const SCORE = document.getElementById("score");
-const INITIALS_INPUT = document.getElementById("initials");
-const SUBMIT_SCORE = document.getElementById("submit-score");
-const ERROR_MESSAGE = document.getElementById("error-message");
+
+
+
+// Create Question Class and Questions/Answers Array
+class Question {
+    constructor(question, choices, indexOfCorrectChoice) {
+      this.question = question;
+      this.choices = choices;
+      this.indexOfCorrectChoice = indexOfCorrectChoice;
+    }
+  }
 
 const QUESTION_1 = new Question("Commonly used data types DO NOT include: ", 
   ["Strings", "Booleans", "Alerts", "Numbers"], 2);
@@ -43,10 +39,38 @@ let choiceStatusTimeout;
 
 /******** EVENT LISTENERS ********/ 
 START_BTN.addEventListener('click', startGame);
-CHOICES.addEventListener('click', processChoice);
-SUBMIT_SCORE.addEventListener('submit', processInput);
 
 
+/******** Begin Game ********/ 
+function startGame() {
+    //showElement(QUIZ_SECTIONS, QUIZ_SECTION);
+    alert("WTF");
+    displayTime();  
+  
+    startTimer();
+  }
+
+  /******** Timer Functions ********/ 
+function displayTime() {
+    TIME_REMAINING.textContent = totalTime;
+  }
+  
+  function startTimer() {
+    totalTimeInterval = setInterval(function() {
+      totalTime--;
+      displayTime();
+      checkTime();
+  
+    }, 1000);
+  }
+
+  function checkTime() {
+    if (totalTime <= 0) {
+      totalTime = 0;
+      endGame();
+    }
+  }
+  
 // A start button function
     // loads Q&A
     // starts timer
