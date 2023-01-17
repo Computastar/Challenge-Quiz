@@ -4,10 +4,19 @@
 
 const START_BTN = document.getElementById("start");
 const TIME_REMAINING = document.getElementById("time");
+const CHOICES = document.getElementById("choices");
+const QUIZ_SECTIONS = document.querySelectorAll(".quiz-section");
 
+const QUIZ_SECTION = document.getElementById("quiz-questions");
 //End
 
+//Quiz questions
 
+const QUESTION = document.getElementById("question");
+
+const CHOICE_STATUSES = document.querySelectorAll(".choice-status");
+const CORRECT = document.getElementById("correct");
+const WRONG = document.getElementById("wrong");
 
 // Create Question Class and Questions/Answers Array
 class Question {
@@ -39,18 +48,18 @@ let choiceStatusTimeout;
 
 /******** EVENT LISTENERS ********/ 
 START_BTN.addEventListener('click', startGame);
-
+CHOICES.addEventListener('click', processChoice);
 
 /******** Begin Game ********/ 
 function startGame() {
-    //showElement(QUIZ_SECTIONS, QUIZ_SECTION);
+    showElement(QUIZ_SECTIONS, QUIZ_SECTION);
     alert("WTF");
     displayTime();  
-  
+    displayQuestion();
     startTimer();
   }
 
-  /******** Timer Functions ********/ 
+  /* Timer Functions */ 
 function displayTime() {
     TIME_REMAINING.textContent = totalTime;
   }
@@ -71,6 +80,52 @@ function displayTime() {
     }
   }
   
+  /* Show/Hide Elements */ 
+function showElement(siblingList, showElement) {
+    for (element of siblingList) {
+      hideElement(element);
+    }
+    showElement.classList.remove("hide");
+  } 
+  
+  function hideElement(element) {
+    if (!element.classList.contains("hide")) {
+      element.classList.add("hide");
+    }
+  }
+
+/* Question Functions */ 
+function displayQuestion() {
+    Question.textContent = QUESTION_LIST[currentQuestion].question;
+  
+    displayChoiceList();
+  }
+  
+  function displayChoiceList() {
+    CHOICES.innerHTML = "";
+  
+    QUESTION_LIST[currentQuestion].choices.forEach(function(answer, index) {
+      const li = document.createElement("li");
+      li.dataset.index = index;
+      const button = document.createElement("button");
+      button.textContent = (index + 1) + ". " + answer;
+      li.appendChild(button);
+      CHOICES.appendChild(li);
+    });
+  }
+
+  function processChoice(event) {
+    const userChoice = parseInt(event.target.parentElement.dataset.index);
+  
+    resetChoiceStatusEffects();
+    checkChoice(userChoice);
+    getNextQuestion();
+  }
+
+  function resetChoiceStatusEffects() {
+    clearTimeout(choiceStatusTimeout);
+    styleTimeRemainingDefault();
+  }
 // A start button function
     // loads Q&A
     // starts timer
