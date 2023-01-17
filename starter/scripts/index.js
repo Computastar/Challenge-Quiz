@@ -16,7 +16,7 @@ const QUESTION = document.getElementById("question");
 //Quiz questions
 
 
-const CHOICE_STATUSES = document.querySelectorAll(".choice-status");
+const CHOICE_STATUS = document.querySelectorAll(".choice-status");
 const CORRECT = document.getElementById("correct");
 const WRONG = document.getElementById("wrong");
 //End
@@ -64,7 +64,7 @@ SUBMIT_SCORE.addEventListener('submit', processInput);
 /******** Begin Game ********/ 
 function startGame() {
     showElement(QUIZ_SECTIONS, QUIZ_SECTION);
-    alert("WTF");
+
     displayTime();  
     displayQuestion();
     startTimer();
@@ -138,7 +138,7 @@ function displayQuestion() {
     styleTimeRemainingDefault();
   }
 
-  // Displaying choice statuses //
+  // Displaying choice status //
 function resetChoiceStatusEffects() {
     clearTimeout(choiceStatusTimeout);
     styleTimeRemainingDefault();
@@ -168,7 +168,7 @@ function resetChoiceStatusEffects() {
     deductTimeBy(10);
   
     styleTimeRemainingWrong();
-    showElement(CHOICE_STATUSES, WRONG);
+    showElement(CHOICE_STATUS, WRONG);
   
     choiceStatusTimeout = setTimeout(function() {
       hideElement(WRONG);
@@ -183,7 +183,7 @@ function resetChoiceStatusEffects() {
   }
   
   function displayCorrectChoiceEffects() {
-    showElement(CHOICE_STATUSES, CORRECT);
+    showElement(CHOICE_STATUS, CORRECT);
   
     choiceStatusTimeout = setTimeout(function() {
       hideElement(CORRECT);
