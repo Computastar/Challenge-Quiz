@@ -58,6 +58,8 @@ let choiceStatusTimeout;
 /******** EVENT LISTENERS ********/ 
 START_BTN.addEventListener('click', startGame);
 CHOICES.addEventListener('click', processChoice);
+SUBMIT_SCORE.addEventListener('submit', processInput);
+
 
 /******** Begin Game ********/ 
 function startGame() {
@@ -219,3 +221,78 @@ function endGame() {
     }
   }
 */
+
+/******** SUBMITTING INITIALS ********/ 
+function processInput(event) {
+  event.preventDefault();
+
+  const initials = INITIALS_INPUT.value.toUpperCase();
+
+  if (isInputValid(initials)) {
+    const score = totalTime;
+    const highscoreEntry = getNewHighscoreEntry(initials, score);
+    saveHighscoreEntry(highscoreEntry);
+    window.location.href= "./highscores.html";
+  }
+}
+
+function getNewHighscoreEntry(initials, score) {
+  const entry = {
+    initials: initials,
+    score: score,
+  }
+  return entry;
+}
+
+function isInputValid(initials) {
+  let errorMessage = "";
+  if (initials === "") {
+    errorMessage = "You can't submit empty initials!";
+    displayFormError(errorMessage);
+    return false;
+  } else if (initials.match(/[^a-z]/ig)) {
+    errorMessage = "Initials may only include letters."
+    displayFormError(errorMessage);
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function displayFormError(errorMessage) {
+  ERROR_MESSAGE.textContent = errorMessage;
+  if (!INITIALS_INPUT.classList.contains("error")) {
+    INITIALS_INPUT.classList.add("error");
+  }
+}
+
+function saveHighscoreEntry(highscoreEntry) {
+  const currentScores = getScoreList();
+  placeEntryInHighscoreList(highscoreEntry, currentScores);
+  localStorage.setItem('scoreList', JSON.stringify(currentScores));
+}
+
+function getScoreList() {
+  const currentScores = localStorage.getItem('scoreList');
+  if (currentScores) {
+    return JSON.parse(currentScores);
+  } else {
+    return [];
+  }
+}
+
+function placeEntryInHighscoreList(newEntry, scoreList) {
+  const newScoreIndex = getNewScoreIndex(newEntry, scoreList);
+  scoreList.splice(newScoreIndex, 0, newEntry);
+}
+
+function getNewScoreIndex(newEntry, scoreList) {
+  if (scoreList.length > 0) {
+    for (let i = 0; i < scoreList.length; i++) {
+      if (scoreList[i].score <= newEntry.score) {
+        return i;
+      }
+    } 
+  }
+  return scoreList.length;
+}
