@@ -11,15 +11,21 @@ const QUIZ_SECTION = document.getElementById("quiz-questions");
 //End
 
 //Quiz questions
-
 const QUESTION = document.getElementById("question");
+
 //Quiz questions
 
 
 const CHOICE_STATUSES = document.querySelectorAll(".choice-status");
 const CORRECT = document.getElementById("correct");
 const WRONG = document.getElementById("wrong");
-
+//End
+const END_SECTION = document.getElementById("end-screen");
+const END_TITLE = document.getElementById("end-title");
+const SCORE = document.getElementById("final-score");
+const INITIALS_INPUT = document.getElementById("initials");
+const SUBMIT_SCORE = document.getElementById("submit-score");
+const ERROR_MESSAGE = document.getElementById("error-message");
 
 // Create Question Class and Questions/Answers Array
 class Question {
@@ -100,7 +106,7 @@ function showElement(siblingList, showElement) {
 /* Question Functions */ 
 function displayQuestion() {
     Question.textContent = QUESTION_LIST[currentQuestion].question;
-  
+  QUESTION.textContent = QUESTION_LIST[currentQuestion].question;
     displayChoiceList();
   }
   
@@ -198,71 +204,18 @@ function endGame() {
     
     showElement(QUIZ_SECTIONS, END_SECTION);
     displayScore();
-    setEndHeading();
+    //setEndHeading();
   }
   
   function displayScore() {
     SCORE.textContent = totalTime;
   }
   
-  function setEndHeading() {
+ /* function setEndHeading() {
     if (totalTime === 0) {
       END_TITLE.textContent = "Sorry! You ran out of time!";
     } else {
       END_TITLE.textContent = "Congratulations! You answered all the questions before your time ran out!";
     }
   }
-// A start button function
-    // loads Q&A
-    // starts timer
-//  timer starts
-    // Timer function
-    // countdown
-    // display
-    // get game stop
-    // stop at zero
-// 
-    
-    //Timer connected to:
-        // Game start f
-        // Game stop f
-        // timer display
-        // Incorrect answer - time deduction
-    
-//gamestart function
-    // trigger from button
-    // start timer
-    // call show questions and choices function
-    // hide submit button
-    // hide instructions
-// toggle class attribute hide
-    //  start-screen
-    // questions container 
-//Gamestop function
-    // trigger from
-        //  last question 
-        // timer zero
-    // announces score
-    // gets initials
-    // post to local storage
-    // show submit button
-    // show instructions
-    
-// highscore function
-    // on load, update from local storage
-    // rank by score 
-    // activate clear highscores button
-    
-// clear highscore function
-    // clears LS
-// Q&A function 
-    // get q&A
-    // display
-    // interactive
-    // on click
-        // show choice
-        // show correct answer
-        // clear
-        // get new questions
-// choice display
-// evaluate choice function
+*/
