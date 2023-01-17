@@ -34,6 +34,12 @@ const QUESTION_5 = new Question("A very useful tool used during development and 
   ["JavaScript", "Terminal/Bash", "For Loops", "console.log"], 3);
 const QUESTION_LIST = [QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5];
 
+let currentQuestion = 0;
+
+let totalTime = 60;
+let totalTimeInterval;
+let choiceStatusTimeout; 
+
 // A start button function
     // loads Q&A
     // starts timer
