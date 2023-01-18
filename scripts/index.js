@@ -184,7 +184,9 @@ function displayChoiceList() {
   /* Check users choice and call effect */
   function checkChoice(userChoice) {
     if (isChoiceCorrect(userChoice)) {
+      playCorrectSound();
       displayCorrectChoiceEffects();
+     
     } else {
       displayWrongChoiceEffects();
     }
@@ -198,7 +200,7 @@ function displayChoiceList() {
   /* Display Wrong if Wrong */
   function displayWrongChoiceEffects() {
     deductTimeBy(10);
-  
+    playWrongSound();
     styleTimeRemainingWrong();
     showElement(choiceStatus, wrong);
   
@@ -207,7 +209,18 @@ function displayChoiceList() {
       styleTimeRemainingDefault();
     }, 1000);
 }
-  
+
+/* Play wrong sound */
+function playWrongSound() {
+  let wrongSound = new Audio("./assets/sfx/incorrect.wav");
+  wrongSound.play();
+}
+/* Play Correct sound */
+function playCorrectSound() {
+  let correctSound = new Audio("./assets/sfx/correct.wav");
+    correctSound.play();
+}
+
 /* Display Correct if Correct */
 function displayCorrectChoiceEffects() {
   showElement(choiceStatus, correct);
@@ -217,7 +230,7 @@ function displayCorrectChoiceEffects() {
   }, 1000);
 }
   
-  /* Lets minus some time from totl */
+  /* Lets minus some time from total */
   function deductTimeBy(seconds) {
     totalTime -= seconds;
     checkTime();
