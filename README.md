@@ -4,8 +4,6 @@
 
 The Challenge is to create a timed, multiple-choice coding quiz that can keep track of high scores and quiz-takers' initials.
 
-I decided early on that I wanted to split this in to function. I feel this helps read and understand the code better, and if you do come across errors then you just need to debug that particular function. I understand that I could have probably consolidated the functions, but I understand the concepts better split out like this. The coding part wasn’t particularly challenging, the more difficult part for me was deciphering the maths, additionally I didn’t think the instruction were particularly clear, but I got there in the end, but not sure I would have without Dan's interpretation of the results.
-
 Purpose of this project is to create a timed JavaScript quiz, where users may save their score to their local storage after completing the coding quiz challenge by entering their initials. All the saved scores can be viewed on the highscores pageRestarting the quiz will clear the stored scores.
 
 ## Description
