@@ -1,70 +1,96 @@
+/* Lets setup some Constants against Elements */
+const startBtn = document.getElementById("start");
+const stimeRemaining = document.getElementById("time");
+const choices = document.getElementById("choices");
+const quizSections = document.querySelectorAll(".quiz-section");
+const quizSection = document.getElementById("quiz-questions")
+const question = document.getElementById("question");
+const choiceStatus = document.querySelectorAll(".choice-status");
+const correct = document.getElementById("correct");
+const wrong = document.getElementById("wrong");
+const endSection = document.getElementById("end-screen");
+const endTitle = document.getElementById("end-title");
+const score = document.getElementById("final-score");
+const initialsInput = document.getElementById("initials");
+const submitScore = document.getElementById("submit-score");
+const errorMessage = document.getElementById("error-message");
 
-
-//Start
-
-const START_BTN = document.getElementById("start");
-const TIME_REMAINING = document.getElementById("time");
-const CHOICES = document.getElementById("choices");
-const QUIZ_SECTIONS = document.querySelectorAll(".quiz-section");
-
-const QUIZ_SECTION = document.getElementById("quiz-questions");
-//End
-
-//Quiz questions
-const QUESTION = document.getElementById("question");
-
-//Quiz questions
-
-
-const CHOICE_STATUS = document.querySelectorAll(".choice-status");
-const CORRECT = document.getElementById("correct");
-const WRONG = document.getElementById("wrong");
-//End
-const END_SECTION = document.getElementById("end-screen");
-const END_TITLE = document.getElementById("end-title");
-const SCORE = document.getElementById("final-score");
-const INITIALS_INPUT = document.getElementById("initials");
-const SUBMIT_SCORE = document.getElementById("submit-score");
-const ERROR_MESSAGE = document.getElementById("error-message");
-
-// Create Question Class and Questions/Answers Array
-class Question {
-    constructor(question, choices, indexOfCorrectChoice) {
-      this.question = question;
-      this.choices = choices;
-      this.indexOfCorrectChoice = indexOfCorrectChoice;
-    }
+/* Define the questions */
+let Questions = [
+  {
+    number: 1,
+    Question: "Commonly used data types DO NOT include? ",
+    Answer: "Alerts",
+    Options: [
+      "Strings",
+      "Booleans",
+      "Alerts",
+      "Numbers"
+    ]
+  },
+  {
+    number: 2,
+    Question: "The condition in an if / else statement is enclosed within ____?",
+    Answer: "Parentheses",
+    Options: [
+      "Quotes",
+      "Curly brackets",
+      "Parentheses",
+      "Square brackets"
+    ]
+  },
+  { 
+    number: 3,
+    Question: "Arrays in JavaScript can be used to store ____?",
+    Answer: "All of the above",
+    Options: [
+      "Numbers and Strings",
+      "Other arrays",
+      "Booleans",
+      "All of the above"
+    ]
+  },
+  {
+    number: 4,
+    Question: "String values must be enclosed within _____ when being assigned to variables?",
+    Answer: "Quotes",
+    Options: [
+      "Commas",
+      "Curly brackets",
+      "Quotes", 
+      "Parentheses"
+    ]
+  },
+  {
+    number: 5,
+    Question: "A very useful tool used during development and debugging for printing content to the debugger is?",
+    Answer: "console.log",
+    Options: [
+      "JavaScript", 
+      "Terminal / Bash",
+      "For Loops",
+      "console.log"
+    ]
   }
+]
 
-const QUESTION_1 = new Question("Commonly used data types DO NOT include: ", 
-  ["Strings", "Booleans", "Alerts", "Numbers"], 2);
-const QUESTION_2 = new Question("The condition in an if / else statement is enclosed within ____.", 
-  ["Quotes", "Curly brackets", "Parentheses", "Square brackets"], 2);
-const QUESTION_3 = new Question("Arrays in JavaScript can be used to store ____.", 
-  ["Numbers and Strings", "Other arrays", "Booleans", "All of the above"], 3);
-const QUESTION_4 = new Question("String values must be enclosed within _____ when being assigned to variables.", 
-  ["Commas", "Curly brackets", "Quotes", "Parentheses"], 2);
-const QUESTION_5 = new Question("A very useful tool used during development and debugging for printing content to the debugger is: ", 
-  ["JavaScript", "Terminal/Bash", "For Loops", "console.log"], 3);
-const QUESTION_LIST = [QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5];
-
+/* Lets set some varibles */
 let currentQuestion = 0;
-
 let totalTime = 60;
 let totalTimeInterval;
-let choiceStatusTimeout; 
+let choicestatusTimeout; 
 
 
-/******** EVENT LISTENERS ********/ 
-START_BTN.addEventListener('click', startGame);
-CHOICES.addEventListener('click', processChoice);
-SUBMIT_SCORE.addEventListener('submit', processInput);
+/* Event Listerners */ 
+startBtn.addEventListener('click', startGame);
+choices.addEventListener('click', processChoice);
+submitScore.addEventListener('submit', processInput);
 
 
-/******** Begin Game ********/ 
+/* Lets crack on then */ 
 function startGame() {
-    showElement(QUIZ_SECTIONS, QUIZ_SECTION);
-
+    showElement(quizSections, quizSection);
+  
     displayTime();  
     displayQuestion();
     startTimer();
@@ -72,7 +98,7 @@ function startGame() {
 
   /* Timer Functions */ 
 function displayTime() {
-    TIME_REMAINING.textContent = totalTime;
+    stimeRemaining.textContent = totalTime;
   }
   
   function startTimer() {
@@ -107,51 +133,55 @@ function showElement(siblingList, showElement) {
 
 /* Question Functions */ 
 function displayQuestion() {
-    Question.textContent = QUESTION_LIST[currentQuestion].question;
-  QUESTION.textContent = QUESTION_LIST[currentQuestion].question;
-    displayChoiceList();
+  question.textContent = Questions[currentQuestion].Question;
+  displayChoiceList();
   }
   
-  function displayChoiceList() {
-    CHOICES.innerHTML = "";
-  
-    QUESTION_LIST[currentQuestion].choices.forEach(function(answer, index) {
-      const li = document.createElement("li");
-      li.dataset.index = index;
-      const button = document.createElement("button");
-      button.textContent = (index + 1) + ". " + answer;
-      li.appendChild(button);
-      CHOICES.appendChild(li);
-    });
-  }
+/* Build out answer option */
+function displayChoiceList() {
+  choices.innerHTML = "";
 
+  Questions[currentQuestion].Options.forEach(function (answer, index) {
+    const li = document.createElement("li");
+    li.dataset.index = index;
+    const button = document.createElement("button");
+    button.textContent =  answer;
+    li.appendChild(button);
+    choices.appendChild(li);
+  });
+}
+
+ /* Get users choice */
   function processChoice(event) {
-    const userChoice = parseInt(event.target.parentElement.dataset.index);
-  
-    resetChoiceStatusEffects();
+    const userChoice = event.target.textContent;
+    resetchoicestatusEffects();
     checkChoice(userChoice);
     getNextQuestion();
   }
 
-  function resetChoiceStatusEffects() {
-    clearTimeout(choiceStatusTimeout);
+  /* Reset Choices */
+  function resetchoicestatusEffects() {
+    clearTimeout(choicestatusTimeout);
     styleTimeRemainingDefault();
   }
 
-  // Displaying choice status //
-function resetChoiceStatusEffects() {
-    clearTimeout(choiceStatusTimeout);
+  /* Displaying choice status */
+  function resetchoicestatusEffects() {
+    clearTimeout(choicestatusTimeout);
     styleTimeRemainingDefault();
   }
   
+  /* Style time remianing */
   function styleTimeRemainingDefault() {
-    TIME_REMAINING.style.color = "#4616E8";
+    stimeRemaining.style.color = "#4616E8";
   }
   
+/* Style time remianing */
   function styleTimeRemainingWrong() {
-    TIME_REMAINING.style.color = "#E81648";
+    stimeRemaining.style.color = "#E81648";
   }
 
+  /* Check users choice and call effect */
   function checkChoice(userChoice) {
     if (isChoiceCorrect(userChoice)) {
       displayCorrectChoiceEffects();
@@ -160,73 +190,79 @@ function resetChoiceStatusEffects() {
     }
   }
 
+  /* Check users choice matches answer */
   function isChoiceCorrect(choice) {
-    return choice === QUESTION_LIST[currentQuestion].indexOfCorrectChoice;
+    return choice === Questions[currentQuestion].Answer; 
   }
 
+  /* Display Wrong if Wrong */
   function displayWrongChoiceEffects() {
     deductTimeBy(10);
   
     styleTimeRemainingWrong();
-    showElement(CHOICE_STATUS, WRONG);
+    showElement(choiceStatus, wrong);
   
-    choiceStatusTimeout = setTimeout(function() {
-      hideElement(WRONG);
+    choicestatusTimeout = setTimeout(function() {
+      hideElement(wrong);
       styleTimeRemainingDefault();
     }, 1000);
-  }
+}
   
+/* Display Correct if Correct */
+function displayCorrectChoiceEffects() {
+  showElement(choiceStatus, correct);
+
+  choicestatusTimeout = setTimeout(function () {
+    hideElement(correct);
+  }, 1000);
+}
+  
+  /* Lets minus some time from totl */
   function deductTimeBy(seconds) {
     totalTime -= seconds;
     checkTime();
     displayTime();
   }
   
-  function displayCorrectChoiceEffects() {
-    showElement(CHOICE_STATUS, CORRECT);
-  
-    choiceStatusTimeout = setTimeout(function() {
-      hideElement(CORRECT);
-    }, 1000);
-  }
 
-  //Get next question
+/* Get next question */
 function getNextQuestion() {
     currentQuestion++;
-    if (currentQuestion >= QUESTION_LIST.length) {
+    if (currentQuestion >= Questions.length) {
       endGame();
     } else {
       displayQuestion();
     }
   }
 
-  /* Finish the game */ 
+/* Finish the game */ 
 function endGame() {
     clearInterval(totalTimeInterval);
     
-    showElement(QUIZ_SECTIONS, END_SECTION);
+    showElement(quizSections, endSection);
     displayScore();
-    //setEndHeading();
+    setEndHeading();
   }
   
+  /* Update score */
   function displayScore() {
-    SCORE.textContent = totalTime;
+    score.textContent = totalTime;
   }
   
- /* function setEndHeading() {
+  /* Display end message */
+ function setEndHeading() {
     if (totalTime === 0) {
-      END_TITLE.textContent = "Sorry! You ran out of time!";
+      endTitle.textContent = "Sorry! You ran out of time!";
     } else {
-      END_TITLE.textContent = "Congratulations! You answered all the questions before your time ran out!";
+      endTitle.textContent = "Congratulations! You answered all the questions before your time ran out!";
     }
   }
-*/
 
-/******** SUBMITTING INITIALS ********/ 
+/* Submit Name */ 
 function processInput(event) {
   event.preventDefault();
 
-  const initials = INITIALS_INPUT.value.toUpperCase();
+  const initials = initialsInput.value.toUpperCase();
 
   if (isInputValid(initials)) {
     const score = totalTime;
@@ -236,6 +272,7 @@ function processInput(event) {
   }
 }
 
+/* Get high scrore details */
 function getNewHighscoreEntry(initials, score) {
   const entry = {
     initials: initials,
@@ -244,6 +281,7 @@ function getNewHighscoreEntry(initials, score) {
   return entry;
 }
 
+/* Check inout is valid */
 function isInputValid(initials) {
   let errorMessage = "";
   if (initials === "") {
@@ -259,19 +297,22 @@ function isInputValid(initials) {
   }
 }
 
+/* On error display error */
 function displayFormError(errorMessage) {
-  ERROR_MESSAGE.textContent = errorMessage;
-  if (!INITIALS_INPUT.classList.contains("error")) {
-    INITIALS_INPUT.classList.add("error");
+  errorMessage.textContent = errorMessage;
+  if (!initialsInput.classList.contains("error")) {
+    initialsInput.classList.add("error");
   }
 }
 
+/* Save scroe to local storage */
 function saveHighscoreEntry(highscoreEntry) {
   const currentScores = getScoreList();
   placeEntryInHighscoreList(highscoreEntry, currentScores);
   localStorage.setItem('scoreList', JSON.stringify(currentScores));
 }
 
+/* Get high scores from local storage */
 function getScoreList() {
   const currentScores = localStorage.getItem('scoreList');
   if (currentScores) {
@@ -281,11 +322,13 @@ function getScoreList() {
   }
 }
 
+/* Add high score to list */
 function placeEntryInHighscoreList(newEntry, scoreList) {
   const newScoreIndex = getNewScoreIndex(newEntry, scoreList);
   scoreList.splice(newScoreIndex, 0, newEntry);
 }
 
+/* Get scores indes */
 function getNewScoreIndex(newEntry, scoreList) {
   if (scoreList.length > 0) {
     for (let i = 0; i < scoreList.length; i++) {
