@@ -1,4 +1,4 @@
-# Module-6-Challenge-Quiz
+# Challenge-Quiz
 
 ## Overview
 
